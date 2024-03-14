@@ -1,6 +1,8 @@
 use reqwest;
 use std::fs::File;
 use std::io::Write;
+use colorful::{Color, Colorful};
+use std::env;
 
 async fn archive() -> Result<(), Box<dyn std::error::Error>> {//função para enviar uma requisição GET a api do archive.org e retornar um arquivo de texto com o conteudo retornado pela api
     
@@ -24,8 +26,34 @@ async fn archive() -> Result<(), Box<dyn std::error::Error>> {//função para en
     Ok(())
 }
 
+fn hi(){
+    let s = format!(
+        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
+        r#"                                                                                                 "#,
+        r#"--------------------------------------------------------------------------------------------"#,
+        r#"░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓███████▓▒░  ░▒▓██████▓▒░   ░▒▓██████▓▒░  ░▒▓███████▓▒░"#,
+        r#"░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
+        r#"░▒▓█▓▒▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
+        r#"░▒▓█▓▒▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓██████▓▒░  ░▒▓█▓▒░        ░▒▓████████▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
+        r#"░▒▓█▓▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░        ░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
+        r#"░▒▓█▓▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░        ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
+        r#" ░▒▓██▓▒░     ░▒▓█████████████▓▒░  ░▒▓███████▓▒░   ░▒▓██████▓▒░  ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
+        r#"--------------------------------------------------------------------------------------------"#,
+        r#"                                                                                                 "#,
+    );
+    println!("{}", s.gradient(Color::SkyBlue1).bold());
+}
+
+fn help(){
+    println!("Modo de uso: VwScan [Scan Type(s)] [Options] [target specification]");
+    println!("Funções basicas:");
+    println!("-h: Tela de ajuda");
+    println!("Modo de uso: VwScan [Scan Type(s)] [Options] [target specification]");
+}
+
 #[tokio::main]
 async fn main() {
+    hi();
     /*
         Criação do menu()
         passagem de parametro [site] ao archive()
@@ -33,6 +61,20 @@ async fn main() {
         trabalhar com o archive.txt
         
      */
+
+    // Coletando os argumentos da linha de comando
+    let args: Vec<String> = env::args().collect();
+
+    //println!("{}",args[0]);//nome do programa
+    //println!("{}",args[1]);//primeiro argumento
+
+    // Verificando se foi passado o nome do programa como argumento
+    if args.len() < 2 {
+        println!("Uso: {} <NomeDoPrograma>", args[0]);
+        return;
+    }
+
+    help();
     if let Err(err) = archive().await {
         eprintln!("Erro: {}", err);
     }
