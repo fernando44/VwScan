@@ -1,81 +1,42 @@
-use reqwest;
-use std::fs::File;
-use std::io::Write;
-use colorful::{Color, Colorful};
+//modularization
+mod archives;
+use archives::archive;
+
+mod helps;
+use helps::help;
+
+mod banner;
+use banner::hi;
+//modularization end
+
+//libraries
+
 use std::env;
-
-async fn archive() -> Result<(), Box<dyn std::error::Error>> {//função para enviar uma requisição GET a api do archive.org e retornar um arquivo de texto com o conteudo retornado pela api
-    
-    let url = "https://web.archive.org/cdx/search/cdx?url=*.meusite.com.br/*&output=json&fl=original&collapse=urlkey";//Url de pesquisa
-    let response = reqwest::get(url).await?;//Requisição GET
-
-    if response.status().is_success() {//response code 200 
-        
-        let body = response.text().await?;//response body
-        let caminho_arquivo = "archive.txt";//cria o caminho do arquivo
-        let mut arquivo = File::create(caminho_arquivo)?;//cria o arquivo
-        arquivo.write_all(body.as_bytes())?;//escreve o conetudo 
-        println!("Arquivo criado: {}", caminho_arquivo);
-
-    } 
-    
-    else {
-        println!("Erro na requisição. Código de status: {:?}", response.status());//mensagem de erro
-    }
-
-    Ok(())
-}
-
-fn hi(){
-    let s = format!(
-        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
-        r#"                                                                                                 "#,
-        r#"--------------------------------------------------------------------------------------------"#,
-        r#"░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓███████▓▒░  ░▒▓██████▓▒░   ░▒▓██████▓▒░  ░▒▓███████▓▒░"#,
-        r#"░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
-        r#"░▒▓█▓▒▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
-        r#"░▒▓█▓▒▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓██████▓▒░  ░▒▓█▓▒░        ░▒▓████████▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
-        r#"░▒▓█▓▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░        ░▒▓█▓▒░ ░▒▓█▓▒░        ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
-        r#"░▒▓█▓▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░        ░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
-        r#" ░▒▓██▓▒░     ░▒▓█████████████▓▒░  ░▒▓███████▓▒░   ░▒▓██████▓▒░  ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░"#,
-        r#"--------------------------------------------------------------------------------------------"#,
-        r#"                                                                                                 "#,
-    );
-    println!("{}", s.gradient(Color::SkyBlue1).bold());
-}
-
-fn help(){
-    println!("Modo de uso: VwScan [Scan Type(s)] [Options] [target specification]");
-    println!("Funções basicas:");
-    println!("-h: Tela de ajuda");
-    println!("Modo de uso: VwScan [Scan Type(s)] [Options] [target specification]");
-}
+//libraries end
 
 #[tokio::main]
 async fn main() {
-    hi();
-    /*
-        Criação do menu()
-        passagem de parametro [site] ao archive()
-
-        trabalhar com o archive.txt
-        
-     */
-
-    // Coletando os argumentos da linha de comando
-    let args: Vec<String> = env::args().collect();
-
-    //println!("{}",args[0]);//nome do programa
-    //println!("{}",args[1]);//primeiro argumento
-
-    // Verificando se foi passado o nome do programa como argumento
-    if args.len() < 2 {
-        println!("Uso: {} <NomeDoPrograma>", args[0]);
+    hi();//baner VWSCAN
+    let args: Vec<String> = env::args().collect();// Coletando os argumentos
+    let quantidade_argumentos = args.len();// Quantidade de argumentos
+    
+    if quantidade_argumentos < 2 {//verifica se foi passado algum argumento
+        println!("Modo de uso: vw_scan -Opções Site.com");
         return;
     }
-
-    help();
-    if let Err(err) = archive().await {
-        eprintln!("Erro: {}", err);
+      
+    for argumento in args.iter().skip(1) {//leitura de argumentos passados pelo usuario
+        match argumento.as_str() {
+            "-h" => help(),//menu help 
+            "-s" | "-sS" => { // Scan Simples ou Scan Composto
+                let site: String = args[quantidade_argumentos - 1].clone();
+                let is_simple = argumento == "-s"; // Verifica se é um scan simples
+                if let Err(err) = archive(site, if is_simple { 1 } else { 0 }).await {
+                    eprintln!("Erro: {}", err);
+                }
+            },
+            "-e" => println!("Argumento -e foi passado."),
+            _ => println!(""),//printa por causa do ultimo parametro CORRIGIR
+        }
     }
 }
