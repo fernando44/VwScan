@@ -14,11 +14,29 @@ pub(crate) async fn archive(site: String, control: u8) -> Result<(), Box<dyn std
     if response.status().is_success() {//response code 200 
         
         let body = response.text().await?;//response body
-        let caminho_arquivo = "archive.txt";//cria o caminho do arquivo
+        let caminho_arquivo = "archiveOriginal.txt";//cria o caminho do arquivo
         let mut arquivo = File::create(caminho_arquivo)?;//cria o arquivo
         arquivo.write_all(body.as_bytes())?;//escreve o conetudo 
-        println!("Arquivo criado: {}", caminho_arquivo);
+        println!("Arquivo original criado: {}", caminho_arquivo);
 
+        let mut final_str = String::new();
+
+        for line in body.lines() {
+            if let Some(start) = line.find("[\"") {
+                if let Some(end) = line.find("\"]") {
+                    let url = &line[start + 2..end];
+                    if url.starts_with("http://") {
+                        final_str.push_str(&format!("{}\n", url));
+                    }
+                }
+            }
+        }
+
+        let nome = "archive.txt";
+        let mut arq = File::create(nome)?;
+        arq.write_all(final_str.as_bytes())?;
+        println!("Arquivo limpo criado: {}", nome);
+        
     } 
     
     else {
