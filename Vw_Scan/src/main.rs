@@ -7,10 +7,12 @@ use helps::help;
 
 mod banner;
 use banner::hi;
+
+mod identfier;
+use identfier::identf;
 //modularization end
 
 //libraries
-
 use std::env;
 //libraries end
 
@@ -35,7 +37,11 @@ async fn main() {
                     eprintln!("Erro: {}", err);
                 }
             },
-            "-e" => println!("Argumento -e foi passado."),
+            "-i" => {
+                if let Err(err) = identf() {
+                    eprintln!("Erro ao processar identf(): {}", err);
+                }
+            },
             _ => println!(""),//printa por causa do ultimo parametro CORRIGIR
         }
     }
