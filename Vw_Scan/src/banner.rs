@@ -1,5 +1,7 @@
 use colorful::{Color, Colorful};
-
+/*
+    -> Banner do sistema 
+*/
 pub(crate) fn hi(){
     let s = format!(
         "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",

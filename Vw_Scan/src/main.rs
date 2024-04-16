@@ -16,6 +16,10 @@ use identfier::identf;
 use std::env;
 //libraries end
 
+/*
+    -> Menu principal direciona o usuario para as diferentes funções 
+*/
+
 #[tokio::main]
 async fn main() {
     hi();//baner VWSCAN
@@ -23,7 +27,7 @@ async fn main() {
     let quantidade_argumentos = args.len();// Quantidade de argumentos
     
     if quantidade_argumentos < 2 {//verifica se foi passado algum argumento
-        println!("Modo de uso: vw_scan -Opções Site.com");
+        println!("Modo de uso: vw_scan -[Opções] Site.com");
         return;
     }
       
