@@ -1,21 +1,13 @@
 use std::fs::File;
 use std::io::{Error, Write};
 use std::fs::read_to_string;
-use std::collections::HashSet;
-
-use reqwest::Identity;
 
 /*
     -> Leitura do conteudo do archive.txt
-    -> Leitura dos identificadores idf..
+    -> Leitura dos identificadores
     -> Criação dos arquivos de textos finais
     -> Criação dos conjuntos para armazenar as strings de comparação
     -> Separa as URLs segundo sua extensão e salva nos arquivos corretos
-
-
-    ###
-    Leitura de apenas 1 arquivo contento todudo a ser utilizado na pesquisa 
-    criar um delimitador para cada tipo de arquivo 
 */
 
 pub(crate) fn identf() -> Result<(), Error> {

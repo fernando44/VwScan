@@ -1,4 +1,4 @@
-//modularization
+// Modularização
 mod archives;
 use archives::archive;
 
@@ -10,30 +10,36 @@ use banner::hi;
 
 mod identfier;
 use identfier::identf;
-//modularization end
 
-//libraries
+mod vulns;
+use vulns::vulns;
+
+mod dorks;
+use dorks::dorks;
+// Fim da modularização
+
+// Bibliotecas
 use std::env;
-//libraries end
+// Fim das bibliotecas
 
 /*
-    -> Menu principal direciona o usuario para as diferentes funções 
+    -> Menu principal direciona o usuário para as diferentes funções 
 */
 
 #[tokio::main]
 async fn main() {
-    hi();//baner VWSCAN
-    let args: Vec<String> = env::args().collect();// Coletando os argumentos
-    let quantidade_argumentos = args.len();// Quantidade de argumentos
+    hi(); // Banner VWSCAN
+    let args: Vec<String> = env::args().collect(); // Coletando os argumentos
+    let quantidade_argumentos = args.len(); // Quantidade de argumentos
     
-    if quantidade_argumentos < 2 {//verifica se foi passado algum argumento
+    if quantidade_argumentos < 2 { // Verifica se foi passado algum argumento
         println!("Modo de uso: vw_scan -[Opções] Site.com");
         return;
     }
       
-    for argumento in args.iter().skip(1) {//leitura de argumentos passados pelo usuario
+    for argumento in args.iter().skip(1) { // Leitura de argumentos passados pelo usuário
         match argumento.as_str() {
-            "-h" => help(),//menu help 
+            "-h" => help(), // Menu help 
             "-s" | "-sS" => { // Scan Simples ou Scan Composto
                 let site: String = args[quantidade_argumentos - 1].clone();
                 let is_simple = argumento == "-s"; // Verifica se é um scan simples
@@ -46,7 +52,18 @@ async fn main() {
                     eprintln!("Erro ao processar identf(): {}", err);
                 }
             },
-            _ => println!(""),//printa por causa do ultimo parametro CORRIGIR
+            "-d" => {
+                let site: String = args[quantidade_argumentos - 1].clone();
+                if let Err(err) = dorks(&site).await {
+                    eprintln!("Erro ao processar dorks(): {}", err);
+                }
+            },
+            "-vA" => {
+                if let Err(err) = vulns() {
+                    eprintln!("Erro ao processar vulns(): {}", err);
+                }
+            },
+            _ => println!(""), // Printa por causa do último parâmetro CORRIGIR
         }
     }
 }

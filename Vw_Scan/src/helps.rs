@@ -10,6 +10,6 @@ pub(crate) fn help(){
     println!("-sS: Captura de URLs com subdomínios");
     println!("-i: Separação das URLs por tipos de conteúdo");
     //falta
-    println!("-gH: Geração de uma página web contendo links para buscas relevantes na internet");
+    println!("-d: Geração de uma página web contendo links para buscas relevantes na internet");
     println!("-vA: Analise de possíveis URLs susetíveis a vulnerabilidades");
 }
