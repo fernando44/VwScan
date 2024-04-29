@@ -23,7 +23,11 @@ use std::env;
 // Fim das bibliotecas
 
 /*
+    Função OK
+    Revisão 
+    Print OK
     -> Menu principal direciona o usuário para as diferentes funções 
+    else Controle de execução
 */
 
 #[tokio::main]
@@ -63,7 +67,7 @@ async fn main() {
                     eprintln!("Erro ao processar vulns(): {}", err);
                 }
             },
-            _ => println!(""), // Printa por causa do último parâmetro CORRIGIR
+            _ => {} // Caso não corresponda a nenhum caso, não faz nada
         }
     }
 }

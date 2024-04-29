@@ -1,5 +1,8 @@
 use colorful::{Color, Colorful};
 /*
+    Função OK
+    Revisão OK
+    Print OK
     -> Banner do sistema 
 */
 pub(crate) fn hi(){

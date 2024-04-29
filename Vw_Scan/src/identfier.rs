@@ -3,6 +3,9 @@ use std::io::{Error, Write};
 use std::fs::read_to_string;
 
 /*
+    Função OK
+    Revisão OK
+    Print OK
     -> Leitura do conteudo do archive.txt
     -> Leitura dos identificadores
     -> Criação dos arquivos de textos finais
@@ -11,12 +14,13 @@ use std::fs::read_to_string;
 */
 
 pub(crate) fn identf() -> Result<(), Error> {
-
+    println!("Função separação das URLs por tipos de conteúdo iniciada\n");
     // Ler o conteúdo do arquivo archive.txt
     let url_content = read_to_string("archive.txt").expect("\nIt was not possible to read the file archive.txt.\nUse any URL scan of your choice (rename the file) or run vwscan -s or -sS <target>.");
 
     let identfier:String = read_to_string("identifier.txt").expect("\nIt was not possible to read the file identifier.txt.\nCreate a new identifier.txt, look on the github the model");
 
+    println!("\tCriação dos arquivos\n\t\t->imgaes.txt\n\t\t->dev.txt\n\t\t->files.txt\n\t\t->data.txt\n\t\t->extra.txt");
     //criação dos arquivos
     let mut images_file = File::create("images.txt")?;
     let mut dev_file = File::create("dev.txt")?;
@@ -53,10 +57,9 @@ pub(crate) fn identf() -> Result<(), Error> {
             3 if ident != "#files" => files.push(String::from(ident)),
             4 if ident != "#data" => data.push(String::from(ident)),
             5 if ident != "#extra" => extra.push(String::from(ident)),
-            _ => {} // Caso controle não corresponda a nenhum caso, não faz nada
+            _ => {} // Caso não corresponda a nenhum caso, não faz nada
         }
     }
-    println!("identificadores separados");
 
     //Busca e separação 
     for line in url_content.lines() {
@@ -90,5 +93,7 @@ pub(crate) fn identf() -> Result<(), Error> {
             }
         }
     }
+    println!("\tDados Separados");
+    println!("\nFunção separação das URLs por tipos de conteúdo finalizada\n");
     Ok(())
 }

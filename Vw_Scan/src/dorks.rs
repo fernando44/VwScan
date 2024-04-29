@@ -4,6 +4,9 @@ use regex::Regex;
 use reqwest;
 
 /*
+    Função 
+    Revisão 
+    Print 
     verificar funcionalidade do codigo
 */
 pub(crate) async fn dorks(site: &str) -> Result<(), Error> {

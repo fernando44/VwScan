@@ -1,4 +1,7 @@
 /*
+    Função OK
+    Revisão OK
+    Print OK
     -> Menu de ajuda sobre a utilização do sistema 
 */
 
@@ -9,7 +12,6 @@ pub(crate) fn help(){
     println!("-s: Captura de URLs sem subdomínio");
     println!("-sS: Captura de URLs com subdomínios");
     println!("-i: Separação das URLs por tipos de conteúdo");
-    //falta
     println!("-d: Geração de uma página web contendo links para buscas relevantes na internet");
     println!("-vA: Analise de possíveis URLs susetíveis a vulnerabilidades");
 }
