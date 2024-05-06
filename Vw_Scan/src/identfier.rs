@@ -20,7 +20,7 @@ pub(crate) fn identf() -> Result<(), Error> {
 
     let identfier:String = read_to_string("identifier.txt").expect("\nIt was not possible to read the file identifier.txt.\nCreate a new identifier.txt, look on the github the model");
 
-    println!("\tCriação dos arquivos\n\t\t->imgaes.txt\n\t\t->dev.txt\n\t\t->files.txt\n\t\t->data.txt\n\t\t->extra.txt");
+    println!("\tCriação dos arquivos\n\t\t->images.txt\n\t\t->dev.txt\n\t\t->files.txt\n\t\t->data.txt\n\t\t->extra.txt");
     //criação dos arquivos
     let mut images_file = File::create("images.txt")?;
     let mut dev_file = File::create("dev.txt")?;

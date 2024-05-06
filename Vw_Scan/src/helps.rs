@@ -12,6 +12,6 @@ pub(crate) fn help(){
     println!("-s: Captura de URLs sem subdomínio");
     println!("-sS: Captura de URLs com subdomínios");
     println!("-i: Separação das URLs por tipos de conteúdo");
-    println!("-d: Geração de uma página web contendo links para buscas relevantes na internet");
+    println!("-d: Captura de URLs via Dorks e armazenamento das mesmas");
     println!("-vA: Analise de possíveis URLs susetíveis a vulnerabilidades");
 }
